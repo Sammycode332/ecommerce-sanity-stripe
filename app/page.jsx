@@ -2,34 +2,34 @@ import React from 'react'
 import { client } from '../lib/client';
 import { Product, FooterBanner, HeroBanner } from '../components'
 
-const Home = ( { products, bannerData}) => {
+const Home = async () => {
+  const query = '*[_type == "product"]'
+  const rawProducts = await client.fetch(query);
+
+  const bannerQuery = '*[_type == "banner"]'
+  const rawBannerData = await client.fetch(bannerQuery);
+
+  // This cleans the data entirely so Next.js doesn't crash
+  const products = JSON.parse(JSON.stringify(rawProducts));
+  const bannerData = JSON.parse(JSON.stringify(rawBannerData));
+
   return (
     <div>
-      <HeroBanner />
-        {console.log(bannerData)}
+      <HeroBanner bannerData={bannerData} />
+
       <div className="products-heading">
         <h2>Best Selling Product</h2>
         <p>Speakers of many variations</p>
       </div>
       <div className="products-container">
-        {products?.map((product) => product.name)}
+        {products?.map((product) => (
+          <Product key={product._id} product={product} />
+        ))}
       </div>
-      <div className="desc">
-        <h5>Description</h5>
-        <p>DESCRIPTION</p>
-      </div>
-      <FooterBanner />
+
+      <FooterBanner footerBanner={bannerData && bannerData[0]} />
     </div>
-  );
-};
-
-export const getServerSideProps = async () => {
-  const query = '*[_type == "product"]';
-  const products = await client.fetch(query);
-
-  const bannerQuery = '*[_type == "banner"]';
-  const bannerData = await client.fetch(bannerQuery);
-  return { props: { products,bannerData } };
-};
+  )
+}
 
 export default Home;
