@@ -49,15 +49,15 @@ width: 100%;
   position: absolute;
   white-space: nowrap;
   will-change: transform;
-  animation: marquee 15s linear infinite;
-  width: 180%;
+  animation: marquee 30s linear infinite;
+  width: max-content;
 }
 .track:hover {
   animation-play-state: paused;
 }
 @keyframes marquee {
   from { transform: translateX(0); }
-  to { transform: translateX(-50%); }
+  to { transform: translateX(-25%); }
 }
 
  span.text-red {
@@ -560,9 +560,11 @@ padding: 6px;
 }
 .maylike-products-container{
   display: flex;
-  justify-content: center;
   gap: 15px;
   margin-top: 20px;
+}
+.maylike-products-container > div {
+  display: inline-block;
 }
 .max-qty{
   font-weight: 500;
@@ -757,10 +759,7 @@ margin-top: 160px;
 .total h3{
   font-size: 20px;
 }
-.track {
-  animation: marquee 10s linear infinite;
-  width: 550%;
-}
+
 .success-wrapper, .cancel-wrapper{
  
   min-height: 69vh;
